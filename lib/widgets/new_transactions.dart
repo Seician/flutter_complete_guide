@@ -24,9 +24,11 @@ class NewTransaction extends StatelessWidget {
                 controller: amountController,
               ),
               ElevatedButton(
-                onPressed: () {
-                  addTx(titleController.text, double.parse(amountController.text));
-                },
+              onPressed: () {
+                addTx(
+                  titleController.text,
+                  double.parse(amountController.text),
+                );},
                 child: Text('Add Transaction'),
               )
             ],

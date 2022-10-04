@@ -6,7 +6,7 @@ import 'new_transactions.dart';
 
 class UserTransactions extends StatefulWidget {
   @override
-  State<UserTransactions> createState() => _UserTransactionState();
+  _UserTransactionState createState() => _UserTransactionState();
 }
 
 class _UserTransactionState extends State<UserTransactions> {
@@ -27,15 +27,17 @@ class _UserTransactionState extends State<UserTransactions> {
         title: title,
         amount: amount,
         date: DateTime.now());
-    @override
-    void setState(VoidCallback fn) {
+
+    setState(() {
       _userTransactions.add(newTx);
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [NewTransaction(_addNewTransaction), TransactionList(_userTransactions)]);
+    return Column(children: [
+      NewTransaction(_addNewTransaction),
+      TransactionList(_userTransactions)
+    ]);
   }
 }
