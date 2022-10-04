@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './transaction.dart';
+import 'package:flutter_complete_guide/widgets/user_transactions.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -14,17 +15,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-        id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
-    Transaction(id: 't1', title: 'Wine', amount: 9.99, date: DateTime.now()),
-    Transaction(
-        id: 't1',
-        title: 'Weekly Groceries',
-        amount: 160.87,
-        date: DateTime.now()),
-  ];
-
+  // String titleInput;
+  // String amountInput;
+  final titleControler = TextEditingController();
+  final amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +26,6 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
@@ -43,44 +36,7 @@ class MyHomePage extends StatelessWidget {
               elevation: 5,
             ),
           ),
-          Column(
-            // we need to make transactions to be added dynamic
-            // we will do that with .map method.
-            children: (transactions.map((tx) {
-              return Card(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue, width: 2)),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        '\$: ${tx.amount}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.blue),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          tx.title,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Text(tx.date.toString(),
-                            style: TextStyle(color: Colors.grey)),
-                      ],
-                    )
-                  ],
-                ),
-              );
-            }).toList()),
-          ),
+          UserTransactions(),
         ],
       ),
     );
