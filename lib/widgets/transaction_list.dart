@@ -11,7 +11,19 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: ListView.builder(
+      child: transactions.isEmpty ? Column(
+          children: [
+            Text('No transaction added yet!', 
+            style:Theme.of(context).textTheme.headline6 ,),
+            SizedBox(
+              height: 10,
+              ),
+            Container(
+              height: 200,
+              child: Image.asset('assets/images/waiting.png', fit: BoxFit.cover,)),
+          ],
+      ) 
+      : ListView.builder(
         // we need to make transactions to be added dynamic
         // we will do that with .map method.
         itemBuilder: (ctx, index) {
