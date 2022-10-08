@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/widgets/chart.dart';
 import 'package:flutter_complete_guide/widgets/new_transactions.dart';
 import 'package:flutter_complete_guide/widgets/transaction_list.dart';
 
@@ -12,23 +13,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        accentColor: Colors.amber,
-        fontFamily: 'QuickSand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: TextStyle(
-            fontFamily: 'OpenSans', 
-            fontWeight: FontWeight.bold, 
-            fontSize: 18)),
-        appBarTheme: AppBarTheme(
+          primarySwatch: Colors.green,
+          accentColor: Colors.amber,
+          fontFamily: 'QuickSand',
           textTheme: ThemeData.light().textTheme.copyWith(
-            headline6:TextStyle(
-              fontFamily: 'OpenSans', 
-              fontSize: 20,
-              ),
-               )
-               ,)
-      ),
+              headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18)),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                  ),
+                ),
+          )),
       home: MyHomePage(),
     );
   }
@@ -51,6 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
     //     date: DateTime.now()),
   ];
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract
+        (const Duration(days: 7),
+      ),
+      );
+    }).toList();
+  }
+
   void _addNewTransaction(String title, double amount) {
     final newTx = Transaction(
         id: DateTime.now().toString(),
@@ -68,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (_) {
         return GestureDetector(
-          onTap: (){} ,
+          onTap: () {},
           child: NewTransaction(_addNewTransaction),
           behavior: HitTestBehavior.opaque,
         );
@@ -86,21 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.add),
           )
         ],
-        title: Text('Personal Expenses',),
-        
+        title: Text(
+          'Personal Expenses',
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Theme.of(context).primaryColor,
-                child: Text('CHART'),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_userTransactions),
           ],
         ),
