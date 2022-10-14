@@ -1,4 +1,4 @@
-# flutter_complete_guide
+# Mini Track Expenses APP
 
 A mini track expenses app.
 
