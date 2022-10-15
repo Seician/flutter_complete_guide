@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
               ),
           appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6:const TextStyle(
+                  headline6: const TextStyle(
                     fontFamily: 'OpenSans',
                     fontSize: 20,
                   ),
@@ -91,6 +91,50 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<Widget> _buildLandscapeContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget transactionListWidget,) {
+    return[ Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Show Chart'),
+        Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            }),
+      ],
+    ),  _showChart
+                  ? Container(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.7,
+                      child: Chart(_recentTransactions),
+                    )
+                  : transactionListWidget,];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget transactionListWidget,
+  ) {
+    return [
+      Container(
+          height: (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              0.3,
+          child: Chart(_recentTransactions)),
+      transactionListWidget
+    ];
+  }
+
   void _deleteTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == id);
@@ -100,8 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final isLandScape =
-        mediaQuery.orientation == Orientation.landscape;
+    final isLandScape = mediaQuery.orientation == Orientation.landscape;
     final appBar = AppBar(
       title: const Text(
         'Personal Expenses',
@@ -126,39 +169,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandScape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                 const Text('Show Chart'),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      }),
-                ],
-              ),
+            if (isLandScape) ..._buildLandscapeContent( mediaQuery, appBar, transactionListWidget),
             if (!isLandScape)
-              Container(
-                  height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      0.3,
-                  child: Chart(_recentTransactions)),
-            if (!isLandScape) transactionListWidget,
-            if (isLandScape)
-              _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.7,
-                          child: Chart(_recentTransactions),
-                    )
-                  : transactionListWidget,
+              ..._buildPortraitContent(
+                  mediaQuery, appBar, transactionListWidget),
           ],
         ),
       ),
