@@ -18,15 +18,15 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.amber,
           fontFamily: 'QuickSand',
           textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
+                headline6: const TextStyle(
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.bold,
                     fontSize: 18),
-                button: TextStyle(color: Colors.white),
+                button: const TextStyle(color: Colors.white),
               ),
           appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(
+                  headline6:const TextStyle(
                     fontFamily: 'OpenSans',
                     fontSize: 20,
                   ),
@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Show Chart'),
+                 const Text('Show Chart'),
                   Switch.adaptive(
                     activeColor: Theme.of(context).accentColor,
                       value: _showChart,
@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () => _startAddNewTransaction(context),
       ),
     );
